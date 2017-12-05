@@ -9,15 +9,18 @@ namespace ActionScreenShot
     class Program
     {
         public static string date = DateTime.Now.ToString().Replace("/", "-").Replace(":", "_").Replace(" ", "_"); // Obtener la fecha
-        public static string path = AppDomain.CurrentDomain.BaseDirectory; // Definir la ruta
+        public static string path = AppDomain.CurrentDomain.BaseDirectory; // Definir la ruta del proyecto
+        public static string workDirectory = path + "\\Screenshots";
         public static string fileName = path + "\\Screenshots\\screenshot" + date + ".jpg";
 
         public static void CapturarImagen()
         {
             // Hacer captura de pantalla
-            Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
-
-            Graphics graphics = Graphics.FromImage(printscreen as Image);
+            Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format24bppRgb);
+            
+            Graphics graphics = Graphics.FromImage(printscreen as Image);            
+            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+            graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
             graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
 
             //Guardar captura de pantalla
@@ -29,10 +32,10 @@ namespace ActionScreenShot
         {
             try
             {                   
-                if (!Directory.Exists(path + "\\Screenshots"))
+                if (!Directory.Exists(workDirectory))
                 {
                     // Crear repositorio si no existe
-                    Directory.CreateDirectory(path + "\\Screenshots");
+                    Directory.CreateDirectory(workDirectory);
                     CapturarImagen();                    
                 }
                 else
