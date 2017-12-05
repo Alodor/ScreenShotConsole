@@ -1,0 +1,7 @@
+C:\Users\Administrator\source\repos\ActionScreenShot\ActionScreenShot\bin\Debug\ActionScreenShot.exe.config
+C:\Users\Administrator\source\repos\ActionScreenShot\ActionScreenShot\bin\Debug\ActionScreenShot.exe
+C:\Users\Administrator\source\repos\ActionScreenShot\ActionScreenShot\bin\Debug\ActionScreenShot.pdb
+C:\Users\Administrator\source\repos\ActionScreenShot\ActionScreenShot\obj\Debug\ActionScreenShot.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\source\repos\ActionScreenShot\ActionScreenShot\obj\Debug\ActionScreenShot.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\source\repos\ActionScreenShot\ActionScreenShot\obj\Debug\ActionScreenShot.exe
+C:\Users\Administrator\source\repos\ActionScreenShot\ActionScreenShot\obj\Debug\ActionScreenShot.pdb
