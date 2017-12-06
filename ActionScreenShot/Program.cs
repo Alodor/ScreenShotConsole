@@ -13,7 +13,7 @@ namespace ActionScreenShot
         public static string dateFolder = DateTime.Now.ToShortDateString().Replace("/", "-");
         public static string path = AppDomain.CurrentDomain.BaseDirectory; // Definir la ruta del proyecto
         public static string workDirectory = path + "\\Screenshots\\" + dateFolder; // Directorio para repositorio de imagenes
-        public static string fileName = path + "\\Screenshots\\" + dateFolder + "\\screenshot " + date + ".jpg"; // Guardar imagen en el directorio especifico
+        public static string fileName = path + "\\Screenshots\\" + dateFolder + "\\screenshot_" + date + ".jpg"; // Guardar imagen en el directorio especifico
 
         public static void CapturarImagen()
         {
@@ -40,11 +40,17 @@ namespace ActionScreenShot
                 // Ordenar imagenes de forma descendente
                 FileInfo[] allFiles = directory.GetFiles().OrderByDescending(f => f.CreationTime).ToArray();               
 
-                // 
+                // Ubicar la imagen mas reciente
                 foreach (var f in allFiles)
                 {
-                    string x = f.Name;
-                    Console.WriteLine(x);
+                    string imagenReciente = f.Name;
+
+                    // Comprueba que la imegn obtenida sea igual a la que se desea obtener
+                    if (imagenReciente == "screenshot_" + date + ".jpg")
+                    {                        
+                        Console.WriteLine("Este es el screenshot mas reciente: " + imagenReciente);
+                        break;
+                    }
                 }
 
             }
@@ -58,7 +64,8 @@ namespace ActionScreenShot
         static void Main(string[] args)
         {
             try
-            {                   
+            {          
+                // Comprobar existencia del repositorio
                 if (!Directory.Exists(workDirectory))
                 {
                     // Crear repositorio si no existe
