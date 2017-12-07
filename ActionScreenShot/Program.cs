@@ -58,7 +58,7 @@ namespace ActionScreenShot
                     break;
                 }
 
-                // Seleccionar imagen reciente
+                // Ubicar imagen reciente en su directorio correspondiente
                 using (var image = Image.FromFile(workDirectory + "\\" + imagenReciente))
 
                 // Usar funcion para escalar la imagen seleccionada
@@ -70,22 +70,9 @@ namespace ActionScreenShot
 
                     // Guardar la imagen en el directorio temporal
                     newImage.Save(tempImage, ImageFormat.Jpeg);
-
-                    
-
-                    /*
-                    if (File.Exists(workDirectory + "\\" + imagenReciente))
-                    {
-                        string imagenDelete = workDirectory + "\\" + imagenReciente;
-                        //File.Delete(imagenDelete);
-                        //Console.WriteLine("el archivo a eliminar es: " + imagenDelete);
-                    }
-                    */
-
-                    //newImage.Save(@"c:\test.jpg", ImageFormat.Jpeg);
                 }
 
-                // Eliminar la imagen original
+                // Eliminar la imagen original ubicada en el directorio correspondiente
                 string imagenDelete = workDirectory + "\\" + imagenReciente;
                 File.Delete(imagenDelete);
 
@@ -114,6 +101,22 @@ namespace ActionScreenShot
         }
 
 
+        public static void MoverImagen()
+        {
+            string sourcePath = temp;
+            string targetPath = workDirectory;
+            string[] files = Directory.GetFiles(sourcePath, "*.jpg");
+
+            foreach (string file in files)
+            {
+                string filename = Path.GetFileName(file);
+                string destino = Path.Combine(targetPath, filename);
+
+                File.Move(file, destino);
+            }
+        }
+
+
         static void Main(string[] args)
         {
             try
@@ -124,6 +127,7 @@ namespace ActionScreenShot
 
                 CapturarImagen();
                 RenderizarImagen();
+                MoverImagen();
             }
             catch (Exception e)
             {
