@@ -14,43 +14,45 @@ namespace ActionScreenShot
         public static string path = AppDomain.CurrentDomain.BaseDirectory; // Definir la ruta del proyecto
         public static string workDirectory = path + "\\Screenshots\\" + dateFolder; // Directorio para repositorio de imagenes
         public static string fileName = path + "\\Screenshots\\" + dateFolder + "\\screenshot_" + date + ".jpg"; // Guardar imagen en el directorio especifico
+        public static string imagenReciente = "";
+
 
         public static void CapturarImagen()
         {
-            // Hacer captura de pantalla
-            Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format24bppRgb);
-            
-            Graphics graphics = Graphics.FromImage(printscreen as Image);            
-            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-            graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-            graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
+            try
+            {
+                // Hacer captura de pantalla
+                Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format24bppRgb);
+                Graphics graphics = Graphics.FromImage(printscreen as Image);
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+                graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+                graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
 
-            //Guardar captura de pantalla
-            printscreen.Save(fileName, ImageFormat.Jpeg);
+                //Guardar captura de pantalla
+                printscreen.Save(fileName, ImageFormat.Jpeg);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error encontrado: {0}", e.ToString());
+            }
+            
         }
 
 
-        public static void RedimensionarImagen()
+        public static void ObtenerImagenReciente()
         {
             try
             {
                 // Ubicar directorio de trabajo
-                DirectoryInfo directory = new DirectoryInfo(workDirectory);       
-                
-                // Ordenar imagenes de forma descendente
-                FileInfo[] allFiles = directory.GetFiles().OrderByDescending(f => f.CreationTime).ToArray();               
+                DirectoryInfo directory = new DirectoryInfo(workDirectory);
 
-                // Ubicar la imagen mas reciente
+                // Ordenar imagenes de forma descendente
+                FileInfo[] allFiles = directory.GetFiles().OrderByDescending(f => f.CreationTime).ToArray();                
+
                 foreach (var f in allFiles)
                 {
-                    string imagenReciente = f.Name;
-
-                    // Comprueba que la imegn obtenida sea igual a la que se desea obtener
-                    if (imagenReciente == "screenshot_" + date + ".jpg")
-                    {                        
-                        Console.WriteLine("Este es el screenshot mas reciente: " + imagenReciente);
-                        break;
-                    }
+                    imagenReciente = f.Name;
+                    break;
                 }
 
             }
@@ -58,6 +60,12 @@ namespace ActionScreenShot
             {
                 Console.WriteLine("Error encontrado: {0}", e.ToString());
             }            
+        }
+
+
+        public static void EscalarImagen()
+        {
+
         }
 
 
@@ -71,12 +79,12 @@ namespace ActionScreenShot
                     // Crear repositorio si no existe
                     Directory.CreateDirectory(workDirectory);
                     CapturarImagen();
-                    RedimensionarImagen();
+                    ObtenerImagenReciente();
                 }
                 else
                 {
                     CapturarImagen();
-                    RedimensionarImagen();
+                    ObtenerImagenReciente();
                 }
             }
             catch (Exception e)
